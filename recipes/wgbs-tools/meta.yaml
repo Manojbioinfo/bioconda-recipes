@@ -11,36 +11,44 @@ source:
 build:
   number: 0
   skip: True # [py<30]
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script: {{ PYTHON }} setup.py
+  run_exports:
+    - {{ pin_subpackage('wgbs-tools', max_pin="x") }}
+
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - poetry
+    - python >=3.10
   host:
     - pip
-    - python
+    - python >=3.10
     - setuptools
-    - scipy >=1.3
+    - scipy
     - numpy
     - pandas
     - samtools
     - pytabix
-    - bedtool
+    - bedtools
     - py-bgzip
+    - poetry
 
   run:
-    - python
-    - scipy >=1.3
+    - python >=3.10
+    - scipy
     - numpy
     - pandas
     - samtools
     - pytabix
-    - bedtool
+    - bedtools
     - py-bgzip
+    - poetry
 
 test:
-  - wgbstools --version
+  commands:
+    - wgbstools --version
 
 about:
   home: https://github.com/nloyfer/wgbs_tools
