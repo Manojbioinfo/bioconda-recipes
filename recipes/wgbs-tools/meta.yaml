@@ -1,0 +1,54 @@
+{% set version = "0.2.2" %}
+
+package:
+  name: wgbs-tools
+  version: {{ version }}
+
+source:
+  url: https://github.com/nloyfer/wgbs_tools/archive/refs/tags/{{ version }}.tar.gz
+  sha256: ede7e2b5a2f54ff6eab51a819a510b01f2ba17c338409a96f063a83a7f0f6a6c
+
+build:
+  number: 0
+  skip: True # [py<30]
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - pip
+    - python
+    - setuptools
+    - scipy >=1.3
+    - numpy
+    - pandas
+    - samtools
+    - pytabix
+    - bedtool
+    - py-bgzip
+
+  run:
+    - python
+    - scipy >=1.3
+    - numpy
+    - pandas
+    - samtools
+    - pytabix
+    - bedtool
+    - py-bgzip
+
+test:
+  - wgbstools --version
+
+about:
+  home: https://github.com/nloyfer/wgbs_tools
+  summary: 'Suite for DNA methylation sequencing data representation, visualization, and analysis'
+  license: Yissum
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - Manoj Kumar Gupta
+    - Joachim Wolff
